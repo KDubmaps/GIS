@@ -1,0 +1,16 @@
+from arcgis.gis import GIS
+import arcgis.gis.admin
+
+gis = GIS("https://machine.domain.com/portal", "admin", "password", verify_cert=False)
+gis_servers = gis.admin.servers.list()
+
+#To stop all services
+for server in gis_servers:
+    for service in server.services.list():
+        service.stop()
+
+#To stop specific service(s)
+for server in gis_servers:
+    for service in server.services.list():
+        if service.properties.serviceName == "SampleWorldCities":
+            service.stop()
